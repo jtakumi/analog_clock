@@ -3,11 +3,11 @@ from datetime import datetime
 
 psg.theme('DarkTeal11')
 
-layout=[[psg.Text('',key='-time-',font=('',30))],
-        [psg.Button('change theme',key='-theme-',size=(7,3))],
-        [psg.Button('close',key='-close-',size=(7,3))]]
+layout=[[psg.Text('',key='-time-',font=('Times New Roman',30))],
+        [psg.Button('change theme',key='-theme-',size=(10,3))],
+        [psg.Button('close',key='-close-',size=(10,3))]]
 
-wnd=psg.Window('digital clock',layout,size=(400,300))
+wnd=psg.Window('digital clock',layout,size=(400,200))
 
 layout2=[[psg.Text('theme browsing')],
         [psg.Text('click theme color')],
@@ -17,16 +17,20 @@ layout2=[[psg.Text('theme browsing')],
 #レイアウトの内容を読み込む
 wnd2=psg.Window('Theme Browser',layout2)
 
+
 def now():
     ntime=datetime.now()
     nt=ntime.strftime('%H:%M:%S')
     return nt
+
+
 while True:
     event,values=wnd.read(timeout=10,timeout_key='-timeout-')
     #getting current time
     #when click close button
     if event in (psg.WIN_CLOSED,'-close-'):
         break
+
     elif event == '-theme-':
         event2,values2 = wnd2.read()
         if event2 in(psg.WIN_CLOSED,'exit'):
@@ -36,6 +40,7 @@ while True:
         ct=str('{}'.format(values2['-LIST-'][0]))
         psg.theme(ct)
         wnd2.close()
+        
     #update per 10ms
     if event == '-timeout-':
         wnd['-time-'].update(now())
