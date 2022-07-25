@@ -1,21 +1,13 @@
-import PySimpleGUI as psg
+import PySimpleGUI as sg
 from datetime import datetime
 
-psg.theme('DarkTeal11')
 
-layout=[[psg.Text('',key='-time-',font=('Times New Roman',30))],
-        [psg.Button('change theme',key='-theme-',size=(10,3))],
-        [psg.Button('close',key='-close-',size=(10,3))]]
 
-wnd=psg.Window('digital clock',layout,size=(400,200))
 
-layout2=[[psg.Text('theme browsing')],
-        [psg.Text('click theme color')],
-        [psg.Listbox(values=psg.theme_list(),size=(20,12),key='-LIST-',enable_events=True)],
-        [psg.Button('exit')]]
+
 
 #レイアウトの内容を読み込む
-wnd2=psg.Window('Theme Browser',layout2)
+
 
 
 def now():
@@ -23,26 +15,45 @@ def now():
     nt=ntime.strftime('%H:%M:%S')
     return nt
 
+def make_window(theme=None):
+    if theme:
+        sg.theme(theme)
+    layout=[[sg.Text('',key='-time-',font=('Times New Roman',40),justification='center')],
+        [sg.Button('change theme',key='-theme-',size=(10,3))],
+        [sg.Button('close',key='-close-',size=(10,3))]]
 
-while True:
-    event,values=wnd.read(timeout=10,timeout_key='-timeout-')
-    #getting current time
-    #when click close button
-    if event in (psg.WIN_CLOSED,'-close-'):
-        break
-
-    elif event == '-theme-':
-        event2,values2 = wnd2.read()
-        if event2 in(psg.WIN_CLOSED,'exit'):
-            break
-        psg.theme(values2['-LIST-'][0])
-        psg.popup_get_text('{}'.format(values2['-LIST-'][0]))
-        ct=str('{}'.format(values2['-LIST-'][0]))
-        psg.theme(ct)
-        wnd2.close()
-        
-    #update per 10ms
-    if event == '-timeout-':
-        wnd['-time-'].update(now())
+    return sg.Window('digital clock',layout,size=(300,250))    
     
-wnd.close()
+
+def main():
+    wnd=make_window()
+
+    while True:
+        event,values=wnd.read(timeout=10,timeout_key='-timeout-')
+        #getting current time
+        #when click close button
+        #update per 10ms
+        if event == '-timeout-':
+            wnd['-time-'].update(now())
+
+        if event in (sg.WIN_CLOSED,'-close-'):
+            break
+
+        if event == '-theme-':
+            #layout and window create
+            event,values = sg.Window('Theme Browser',
+            [[sg.Text('theme browsing')],
+            [sg.Text('click theme color')],
+            [sg.Combo(values=sg.theme_list(),size=(20,12),key='-LIST-',readonly=True)],
+            [sg.OK(),sg.Cancel()]]).read(close=True)
+
+            #when OK button click, changing theme
+            if event == 'OK':
+                wnd.close()
+                wnd= make_window(values['-LIST-']) 
+            
+            
+    wnd.close()
+
+if __name__ == '__main__':
+    main()
