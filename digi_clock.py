@@ -3,12 +3,6 @@ from datetime import datetime
 import tkinter.font
 
 
-
-
-#レイアウトの内容を読み込む
-
-
-
 def now():
     ntime=datetime.now()
     nt=ntime.strftime('%H:%M:%S')
@@ -33,11 +27,11 @@ def main():
     while True:
         event,values=wnd.read(timeout=10,timeout_key='-timeout-')
         #getting current time
-        #when click close button
         #update per 10ms
         if event == '-timeout-':
             wnd['-time-'].update(now())
-
+        
+        #when click close button
         if event in (sg.WIN_CLOSED,'-close-'):
             break
 
