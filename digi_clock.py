@@ -55,7 +55,8 @@ def main():
             event,values = sg.Window('Font Browser',
             [[sg.Text('Font browsing')],
             [sg.Text('click font')],
-            [sg.Combo(values=tkinter.font.families(),size=(20,12),key='-FONT-',readonly=True)],
+            #[sg.Combo(values=tkinter.font.families(),size=(20,12),key='-FONT-',readonly=True)],
+            [sg.Combo(values=sg.Text.fonts_installed_list(),size=(20,12),key='-FONT-',readonly=True)],
             [sg.OK(),sg.Cancel()]]).read(close=True)
 
             #when OK button click, changing font
