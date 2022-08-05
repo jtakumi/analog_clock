@@ -11,4 +11,6 @@ how to create digital clock program with PySimpleGUI<br>
 https://qiita.com/Gyutan/items/2c61159a19073b19012b
 <br>
 how to confilm font list<br>
-https://www.school.ctc-g.co.jp/columns/hishinuma/hishinuma21.html
+https://www.school.ctc-g.co.jp/columns/hishinuma/hishinuma21.html <br>
+how to create  kivy clock <br>
+https://stackoverflow.com/questions/18923321/making-a-clock-in-kivy
